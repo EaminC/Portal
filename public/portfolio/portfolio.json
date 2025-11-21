@@ -1,0 +1,32 @@
+{
+  "themes": [
+    {
+      "name": "Gingerbread Man",
+      "path": "Gingerbread Man",
+      "works": [
+        {
+          "name": "Gingerbread Man 1",
+          "path": "Gingerbread Man 1"
+        },
+        {
+          "name": "Gingerbread Man 2",
+          "path": "Gingerbread Man 2"
+        }
+      ]
+    },
+    {
+      "name": "School Bear",
+      "path": "School Bear",
+      "works": [
+        {
+          "name": "School Bear 1",
+          "path": "School Bear 1"
+        },
+        {
+          "name": "School Bear 2",
+          "path": "School Bear 2"
+        }
+      ]
+    }
+  ]
+}
