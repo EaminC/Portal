@@ -13,6 +13,60 @@ interface WorkDetailProps {
 
 export function WorkDetail({ work, workName }: WorkDetailProps) {
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [shareStatus, setShareStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  const handleDownload = async () => {
+    try {
+      const response = await fetch(work.img);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${workName.replace(/\s+/g, '_')}.jpg`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error downloading image:', error);
+    }
+  };
+
+  const handleShare = async () => {
+    const shareData = {
+      title: workName,
+      text: work.des.substring(0, 100) + '...',
+      url: window.location.href,
+    };
+
+    try {
+      // Try Web Share API first (works on mobile and some desktop browsers)
+      if (navigator.share && navigator.canShare(shareData)) {
+        await navigator.share(shareData);
+        setShareStatus('success');
+        setTimeout(() => setShareStatus('idle'), 2000);
+      } else {
+        // Fallback: Copy link to clipboard
+        await navigator.clipboard.writeText(window.location.href);
+        setShareStatus('success');
+        setTimeout(() => setShareStatus('idle'), 2000);
+      }
+    } catch (error: any) {
+      // User cancelled or error occurred
+      if (error.name !== 'AbortError') {
+        // If Web Share failed, try clipboard as fallback
+        try {
+          await navigator.clipboard.writeText(window.location.href);
+          setShareStatus('success');
+          setTimeout(() => setShareStatus('idle'), 2000);
+        } catch (clipboardError) {
+          console.error('Error sharing:', clipboardError);
+          setShareStatus('error');
+          setTimeout(() => setShareStatus('idle'), 2000);
+        }
+      }
+    }
+  };
 
   return (
     <div className="max-w-6xl mx-auto">
@@ -58,13 +112,23 @@ export function WorkDetail({ work, workName }: WorkDetailProps) {
 
         {/* Actions Bar */}
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
-          <button className="px-6 py-3 bg-cyan-500/20 backdrop-blur-md border border-cyan-400/50 rounded-lg text-cyan-400 hover:bg-cyan-500/30 transition-all duration-300 flex items-center gap-2 hover:shadow-[0_0_20px_rgba(0,255,255,0.4)]">
+          <button
+            onClick={handleDownload}
+            className="px-6 py-3 bg-cyan-500/20 backdrop-blur-md border border-cyan-400/50 rounded-lg text-cyan-400 hover:bg-cyan-500/30 transition-all duration-300 flex items-center gap-2 hover:shadow-[0_0_20px_rgba(0,255,255,0.4)] active:scale-95"
+          >
             <Download className="w-4 h-4" />
             <span className="font-mono text-sm">DOWNLOAD</span>
           </button>
-          <button className="px-6 py-3 bg-purple-500/20 backdrop-blur-md border border-purple-400/50 rounded-lg text-purple-400 hover:bg-purple-500/30 transition-all duration-300 flex items-center gap-2 hover:shadow-[0_0_20px_rgba(168,85,247,0.4)]">
+          <button
+            onClick={handleShare}
+            className={`px-6 py-3 bg-purple-500/20 backdrop-blur-md border border-purple-400/50 rounded-lg text-purple-400 hover:bg-purple-500/30 transition-all duration-300 flex items-center gap-2 hover:shadow-[0_0_20px_rgba(168,85,247,0.4)] active:scale-95 ${
+              shareStatus === 'success' ? 'bg-green-500/30 border-green-400/50' : ''
+            } ${shareStatus === 'error' ? 'bg-red-500/30 border-red-400/50' : ''}`}
+          >
             <Share2 className="w-4 h-4" />
-            <span className="font-mono text-sm">SHARE</span>
+            <span className="font-mono text-sm">
+              {shareStatus === 'success' ? 'COPIED!' : shareStatus === 'error' ? 'ERROR' : 'SHARE'}
+            </span>
           </button>
         </div>
       </div>
