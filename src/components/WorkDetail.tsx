@@ -106,7 +106,11 @@ export function WorkDetail({ work, workName }: WorkDetailProps) {
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-cyan-400/60 font-mono">Modified:</span>
-                <span className="text-cyan-400 font-mono">{new Date().toLocaleDateString('en-US')}</span>
+                <span className="text-cyan-400 font-mono">
+                  {work.modified 
+                    ? new Date(work.modified).toLocaleDateString('en-US')
+                    : new Date().toLocaleDateString('en-US')}
+                </span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-cyan-400/60 font-mono">Type:</span>

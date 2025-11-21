@@ -86,7 +86,20 @@ export function ThemeGrid({ themes, portfolioData, onThemeClick }: ThemeGridProp
                     </div>
                     <div className="h-3 w-px bg-cyan-500/30"></div>
                     <div className="text-cyan-400/60 font-mono text-xs">
-                      {new Date().toLocaleDateString('en-US')}
+                      {(() => {
+                        // Get the most recent modification date from all works in this theme
+                        const works = portfolioData[theme];
+                        const dates = Object.values(works)
+                          .map(w => w.modified)
+                          .filter(Boolean)
+                          .sort()
+                          .reverse();
+                        const latestDate = dates[0];
+                        if (latestDate) {
+                          return new Date(latestDate).toLocaleDateString('en-US');
+                        }
+                        return new Date().toLocaleDateString('en-US');
+                      })()}
                     </div>
                   </div>
 

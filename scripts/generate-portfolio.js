@@ -43,9 +43,20 @@ function scanPortfolio(baseDir = path.join(__dirname, '../public/portfolio')) {
         
         // Check if it has img.jpg and des.txt (indicating it's a work)
         if (workFiles.includes('img.jpg') && workFiles.includes('des.txt')) {
+          // Get file modification dates
+          const imgPath = path.join(workPath, 'img.jpg');
+          const desPath = path.join(workPath, 'des.txt');
+          
+          const imgStats = fs.statSync(imgPath);
+          const desStats = fs.statSync(desPath);
+          
+          // Use the most recent modification date between img.jpg and des.txt
+          const modifiedDate = imgStats.mtime > desStats.mtime ? imgStats.mtime : desStats.mtime;
+          
           works.push({
             name: workEntry.name,
-            path: workEntry.name
+            path: workEntry.name,
+            modified: modifiedDate.toISOString().split('T')[0] // Format as YYYY-MM-DD
           });
         }
       }

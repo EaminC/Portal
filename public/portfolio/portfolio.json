@@ -6,11 +6,13 @@
       "works": [
         {
           "name": "Gingerbread Man 1",
-          "path": "Gingerbread Man 1"
+          "path": "Gingerbread Man 1",
+          "modified": "2025-11-21"
         },
         {
           "name": "Gingerbread Man 2",
-          "path": "Gingerbread Man 2"
+          "path": "Gingerbread Man 2",
+          "modified": "2025-11-21"
         }
       ]
     },
@@ -20,11 +22,13 @@
       "works": [
         {
           "name": "Bear_on_Bus",
-          "path": "Bear_on_Bus"
+          "path": "Bear_on_Bus",
+          "modified": "2025-11-21"
         },
         {
           "name": "Cooking_Bear",
-          "path": "Cooking_Bear"
+          "path": "Cooking_Bear",
+          "modified": "2025-11-21"
         }
       ]
     }

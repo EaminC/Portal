@@ -2,6 +2,7 @@
 export interface Work {
   img: string;
   des: string;
+  modified?: string; // File modification date (YYYY-MM-DD format)
 }
 
 export interface Portfolio {
@@ -50,6 +51,7 @@ function transformPortfolioData(data: {
     works: Array<{
       name: string;  // Work folder name (automatically read from filesystem)
       path: string; // Work folder path (same as name)
+      modified?: string; // File modification date (YYYY-MM-DD format)
     }>;
   }>;
 }): Portfolio {
@@ -64,6 +66,7 @@ function transformPortfolioData(data: {
       portfolio[theme.name][work.name] = {
         img: `/portfolio/${theme.path}/${work.path}/img.jpg`,
         des: '', // Will be loaded separately from des.txt
+        modified: work.modified, // File modification date from filesystem
       };
     });
   });
