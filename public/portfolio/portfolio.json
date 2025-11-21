@@ -19,12 +19,12 @@
       "path": "School Bear",
       "works": [
         {
-          "name": "School Bear 1",
-          "path": "School Bear 1"
+          "name": "Bear_on_Bus",
+          "path": "Bear_on_Bus"
         },
         {
-          "name": "School Bear 2",
-          "path": "School Bear 2"
+          "name": "Cooking_Bear",
+          "path": "Cooking_Bear"
         }
       ]
     }
