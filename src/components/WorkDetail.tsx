@@ -92,7 +92,7 @@ export function WorkDetail({ work, workName }: WorkDetailProps) {
               src={work.img}
               alt={workName}
               onLoad={() => setImageLoaded(true)}
-              className="max-w-full max-h-full object-contain relative z-10"
+              className="w-full h-full object-contain relative z-10"
               style={{ imageRendering: 'pixelated' }}
             />
           </div>
